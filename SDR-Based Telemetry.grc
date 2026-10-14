@@ -1,0 +1,424 @@
+options:
+  parameters:
+    author: Mohit Sharma
+    catch_exceptions: 'True'
+    category: '[Custom]'
+    cmake_opt: ''
+    comment: Self-contained software-only QPSK link testbench. No external files, scripts, SDR hardware or custom blocks are
+      required.
+    copyright: ''
+    description: Repeating built-in byte source, QPSK modulation, simulated channel, timing/carrier recovery, QPSK decoding,
+      and QT GUI monitoring.
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: sdr_qpsk_telemetry_standalone
+    max_nouts: '0'
+    output_language: python
+    placement: (0, 0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Standalone SDR QPSK Link Testbench
+    window_size: 1600, 1000
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 8
+    - 8.0
+    rotation: 0
+    state: true
+blocks:
+- name: fs
+  id: variable
+  parameters:
+    comment: Sample rate (1 MS/s).
+    value: 1e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 24
+    - 24.0
+    rotation: 0
+    state: true
+- name: sps
+  id: variable
+  parameters:
+    comment: Samples per symbol.
+    value: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 24
+    - 80.0
+    rotation: 0
+    state: true
+- name: rolloff
+  id: variable
+  parameters:
+    comment: RRC roll-off factor.
+    value: '0.35'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 24
+    - 136.0
+    rotation: 0
+    state: true
+- name: noise
+  id: variable
+  parameters:
+    comment: Channel noise voltage; start at zero.
+    value: '0.0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 24
+    - 192.0
+    rotation: 0
+    state: true
+- name: qpsk
+  id: variable
+  parameters:
+    comment: QPSK constellation object.
+    value: digital.constellation_qpsk().base()
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 260
+    - 24.0
+    rotation: 0
+    state: true
+- name: internal_test_bytes
+  id: blocks_vector_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    repeat: 'True'
+    tags: '[]'
+    type: byte
+    vector: '[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+      30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,
+      59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87,
+      88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113,
+      114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137,
+      138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161,
+      162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185,
+      186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209,
+      210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233,
+      234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255]'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 32
+    - 360.0
+    rotation: 0
+    state: true
+- name: qpsk_modulator
+  id: digital_constellation_modulator
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    constellation: qpsk
+    differential: 'False'
+    rolloff: rolloff
+    log: 'False'
+    samples_per_symbol: sps
+    truncate: 'False'
+    verbose: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 260
+    - 360.0
+    rotation: 0
+    state: true
+- name: simulated_channel
+  id: channels_channel_model
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    block_tags: 'False'
+    epsilon: '1.0'
+    freq_offset: '0.0'
+    noise: noise
+    seed: '2026'
+    taps: '[1.0]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 500
+    - 360.0
+    rotation: 0
+    state: true
+- name: sample_rate_limiter
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ignoretag: 'True'
+    limit: auto
+    maximum: '0.1'
+    samples_per_second: fs
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 730
+    - 360.0
+    rotation: 0
+    state: true
+- name: symbol_timing_recovery
+  id: digital_symbol_sync_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    constellation: qpsk
+    damping: '0.707107'
+    loop_bw: '0.00628318'
+    max_dev: '1.5'
+    nfilters: '32'
+    osps: '1'
+    pfb_mf_taps: '[]'
+    resamp_type: digital.IR_MMSE_8TAP
+    sps: sps
+    ted_gain: '1.0'
+    ted_type: digital.TED_GARDNER
+    type: cc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 970
+    - 360.0
+    rotation: 0
+    state: true
+- name: qpsk_carrier_recovery
+  id: digital_costas_loop_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    order: '4'
+    use_snr: 'False'
+    w: '0.00628318'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1200
+    - 360.0
+    rotation: 0
+    state: true
+- name: qpsk_symbol_decoder
+  id: digital_constellation_decoder_cb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    constellation: qpsk
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1430
+    - 360.0
+    rotation: 0
+    state: true
+- name: decoded_bits_to_bytes
+  id: blocks_unpacked_to_packed_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    bits_per_chunk: '2'
+    endianness: gr.GR_MSB_FIRST
+    num_ports: '1'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1660
+    - 360.0
+    rotation: 0
+    state: true
+- name: consume_decoded_bytes
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    bus_structure_sink: '[[0,],]'
+    num_inputs: '1'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1900
+    - 360.0
+    rotation: 0
+    state: true
+- name: channel_monitor
+  id: qtgui_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    bw: fs
+    fc: '0'
+    fftsize: '1024'
+    gui_hint: ''
+    name: '''Channel Output: spectrum, waterfall, time and IQ'''
+    plotconst: 'True'
+    plotfreq: 'True'
+    plotwaterfall: 'True'
+    plottime: 'True'
+    rate: '10'
+    showports: 'False'
+    showrf: 'False'
+    type: complex
+    wintype: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 730
+    - 560.0
+    rotation: 0
+    state: true
+- name: recovered_symbol_monitor
+  id: qtgui_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    bw: fs/sps
+    fc: '0'
+    fftsize: '1024'
+    gui_hint: ''
+    name: '''Recovered QPSK Symbols: time and constellation'''
+    plotconst: 'True'
+    plotfreq: 'True'
+    plotwaterfall: 'True'
+    plottime: 'True'
+    rate: '10'
+    showports: 'False'
+    showrf: 'False'
+    type: complex
+    wintype: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1200
+    - 560.0
+    rotation: 0
+    state: true
+connections:
+- - internal_test_bytes
+  - '0'
+  - qpsk_modulator
+  - '0'
+- - qpsk_modulator
+  - '0'
+  - simulated_channel
+  - '0'
+- - simulated_channel
+  - '0'
+  - sample_rate_limiter
+  - '0'
+- - sample_rate_limiter
+  - '0'
+  - symbol_timing_recovery
+  - '0'
+- - sample_rate_limiter
+  - '0'
+  - channel_monitor
+  - '0'
+- - symbol_timing_recovery
+  - '0'
+  - qpsk_carrier_recovery
+  - '0'
+- - qpsk_carrier_recovery
+  - '0'
+  - recovered_symbol_monitor
+  - '0'
+- - qpsk_carrier_recovery
+  - '0'
+  - qpsk_symbol_decoder
+  - '0'
+- - qpsk_symbol_decoder
+  - '0'
+  - decoded_bits_to_bytes
+  - '0'
+- - decoded_bits_to_bytes
+  - '0'
+  - consume_decoded_bytes
+  - '0'
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0
